@@ -1,0 +1,213 @@
+/* LOGO */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: var(--forest);
+  color: white;
+}
+.brand > span:last-child {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.brand strong {
+  font:
+    800 17px/1 "Manrope",
+    sans-serif;
+  letter-spacing: -0.03em;
+}
+.brand small {
+  margin-top: 5px;
+  color: #728483;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-bottom: 1px solid var(--line);
+  height: 60px;
+  padding: 0 30px;
+}
+
+.admin-nav {
+  display: flex;
+  align-items: stretch;
+  align-self: stretch;
+  gap: 10px;
+}
+.navigation {
+  display: flex;
+  align-self: stretch;
+}
+.admin-nav a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 15px;
+  border-bottom: 2px solid transparent;
+  color: #6a7c7a;
+  font-size: 12px;
+  font-weight: 600;
+}
+.admin-nav a:hover {
+  color: var(--forest);
+}
+
+.admin-nav a.active {
+  border-color: var(--forest-2);
+  color: var(--forest);
+}
+
+
+
+/* BUTTONS */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 20px;
+  font-weight: 700;
+}
+.button-primary {
+  background: var(--forest);
+  color: white;
+}
+.button-primary:hover {
+  background: #0a4b47;
+}
+.button-secondary {
+  background: transparent;
+  color: var(--forest);
+  border: 1px solid var(--forest);
+}
+.button-secondary:hover {
+  background: var(--mint-light);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 112px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+}
+.stat-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+}
+.stat-icon svg {
+  width: 20px;
+}
+.stat-icon.green {
+  background: #e2f2e9;
+  color: #397c5c;
+}
+.stat-icon.blue {
+  background: #e4eff7;
+  color: #3f7396;
+}
+.stat-icon.orange {
+  background: #f9ebe0;
+  color: #b66a3d;
+}
+.stat-icon.violet {
+  background: #eee9f6;
+  color: #715d97;
+}
+.stat-card div {
+  display: flex;
+  flex-direction: column;
+}
+.stat-card div > span {
+  color: #758481;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+.stat-card strong {
+  font:
+    800 25px "Manrope",
+    sans-serif;
+}
+.stat-card small {
+  color: #7c8b88;
+  font-size: 9px;
+}
+
+  /* Tabs */
+  .admin-tabs { display: flex; gap: 22px; margin: 30px 0 17px; border-bottom: 1px solid var(--line); }
+  .admin-tabs a { border-bottom: 2px solid transparent; padding: 0 2px 11px; color: #72827f; font-size: 11px; font-weight: 700; }
+  .admin-tabs a.active { border-color: var(--forest-2); color: var(--forest); }
+
+.admin-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-user-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--line);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-user-name {
+  font-weight: 700;
+}
+
+.admin-user-title {
+    font-weight: 300;
+    font-size: 11px;
+    color: #72827f;
+}
