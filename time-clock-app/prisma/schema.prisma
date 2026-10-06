@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+// prisma/schema.prisma
+datasource db {
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+model User {
+  id           String      @id @default(uuid()) @db.Uuid
+  name         String
+  email        String      @unique
+  passwordHash String      @map("password_hash")
+  role         Role        @default(EMPLOYEE)
+  isActive     Boolean     @default(true) @map("is_active")
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  shifts       Shift[]
+  shiftEdits   ShiftEdit[]
+
+  @@map("users")
+}
+
+model Shift {
+  id        String      @id @default(uuid()) @db.Uuid
+  userId    String      @map("user_id") @db.Uuid
+  clockIn   DateTime    @map("clock_in") @db.Timestamptz(6)
+  clockOut  DateTime?   @map("clock_out") @db.Timestamptz(6)
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user      User        @relation(fields: [userId], references: [id])
+  edits     ShiftEdit[]
+
+  @@index([userId, clockIn])
+  @@map("shifts")
+}
+
+model ShiftEdit {
+  id          String    @id @default(uuid()) @db.Uuid
+  shiftId     String    @map("shift_id") @db.Uuid
+  editedById  String    @map("edited_by") @db.Uuid
+  editedAt    DateTime  @default(now()) @map("edited_at") @db.Timestamptz(6)
+  reason      String
+  oldClockIn  DateTime? @map("old_clock_in") @db.Timestamptz(6)
+  oldClockOut DateTime? @map("old_clock_out") @db.Timestamptz(6)
+  newClockIn  DateTime? @map("new_clock_in") @db.Timestamptz(6)
+  newClockOut DateTime? @map("new_clock_out") @db.Timestamptz(6)
+
+  shift       Shift     @relation(fields: [shiftId], references: [id])
+  editedBy    User      @relation(fields: [editedById], references: [id])
+
+  @@index([shiftId])
+  @@map("shift_edits")
+}

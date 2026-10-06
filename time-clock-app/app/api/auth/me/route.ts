@@ -1,7 +1,9 @@
 // Owner: A
-// TODO: Return the current user and role.
-// Every handler must verify the session and role on the server (requireUser / requireAdmin).
+// GET /api/auth/me -> the current user and role.
+import { requireApiUser } from "@/lib/auth/guards";
 
 export async function GET() {
-  return Response.json({ error: "Not implemented" }, { status: 501 });
+  const auth = await requireApiUser();
+  if (auth instanceof Response) return auth;
+  return Response.json({ user: auth });
 }

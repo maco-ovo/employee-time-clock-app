@@ -1,7 +1,8 @@
 // Owner: A
-// TODO: Clear the session cookie.
-// Every handler must verify the session and role on the server (requireUser / requireAdmin).
+// POST /api/auth/logout -> clears the session cookie.
+import { destroySession } from "@/lib/auth/session";
 
 export async function POST() {
-  return Response.json({ error: "Not implemented" }, { status: 501 });
+  await destroySession();
+  return Response.json({ ok: true });
 }
