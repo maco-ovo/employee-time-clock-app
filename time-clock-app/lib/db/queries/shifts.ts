@@ -35,7 +35,7 @@ export async function getAdminStats() {
   const rows = await prisma.$queryRaw<{ shifts: number; minutes: number }[]>`
     SELECT
       COUNT(*)::int AS shifts,
-      COALESCE(SUM(EXTRACT(EPOCH FROM (COALESCE(clock_out, now()) - clock_in)) / 60), 0)::int AS minutes
+      COALESCE(SUM(EXTRACT(EPOCH FROM (clock_out - clock_in)) / 60), 0)::int AS minutes
     FROM shifts
     WHERE (clock_in AT TIME ZONE ${tz}) >= date_trunc('week', now() AT TIME ZONE ${tz})
   `;
@@ -63,7 +63,7 @@ export async function getHoursByEmployee(from: string, to: string) {
       u.id,
       u.name,
       u.email,
-      COALESCE(SUM(EXTRACT(EPOCH FROM (COALESCE(s.clock_out, now()) - s.clock_in)) / 60), 0)::int AS minutes
+      COALESCE(SUM(EXTRACT(EPOCH FROM (s.clock_out - s.clock_in)) / 60), 0)::int AS minutes
     FROM users u
     LEFT JOIN shifts s
       ON s.user_id = u.id

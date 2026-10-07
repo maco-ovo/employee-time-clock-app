@@ -3,6 +3,11 @@ import ClockoutButton from "./ClockoutButton";
 import type { LiveShift } from "../_lib/types";
 
 export default function EmployeeDirectoryCard({ shift }: { shift: LiveShift }) {
+  const startTime = shift.clockIn.toLocaleTimeString("en-US", {
+    timeZone: process.env.COMPANY_TIMEZONE,
+    hour: "numeric",
+    minute: "2-digit",
+  });
 
 
   return (
