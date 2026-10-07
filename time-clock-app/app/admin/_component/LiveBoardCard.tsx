@@ -1,16 +1,19 @@
 import Initials from "./Initials";
 import ClockoutButton from "./ClockoutButton";
+import type {Employee} from "../_lib/types"
 
 export default function LiveBoardCard() {
-  const employee = {
+  const employee: Employee = {
     id: 1,
     name: "John Doe",
-    position: "Software Engineer",
+    jobTitle: "Software Engineer",
     location: "New York",
+    email: "john.doe@example.com",
+    isActive: true
   };
 
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="flex items-center gap-4 p-4 bg-white border border-gray-200">
       {/* Avatar */}
       <Initials id={employee.id} name={employee.name} />
 
@@ -21,7 +24,7 @@ export default function LiveBoardCard() {
         </div>
 
         <div className="text-sm text-gray-500">
-          {employee.position}
+          {employee.jobTitle}
         </div>
 
         <div className="text-xs text-gray-400">

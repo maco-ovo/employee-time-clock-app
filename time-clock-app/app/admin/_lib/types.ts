@@ -18,3 +18,12 @@ export type DashboardStats = {
   openShiftsPastCutoff: number;
 };
 
+
+export type Employee = {
+  id: number;
+  name: string;
+  email: string;
+  jobTitle: string;
+  location: string;
+  isActive: boolean;
+};

@@ -109,6 +109,14 @@
   transform: none;
 }
 
+/* Live Board */
+.live-board {
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
 
 
 /* Stats */
