@@ -17,11 +17,19 @@ var mod = __turbopack_context__.x("url", () => require("url"));
 
 module.exports = mod;
 }),
-"[project]/postcss.config.mjs [postcss] (ecmascript)", ((__turbopack_context__, module, exports) => {
+"[project]/postcss.config.mjs [postcss] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
 
-var e = new Error("Could not parse module '[project]/postcss.config.mjs', file not found");
-e.code = 'MODULE_UNPARSABLE';
-throw e;
+__turbopack_context__.s([
+    "default",
+    ()=>__TURBOPACK__default__export__
+]);
+const config = {
+    plugins: {
+        "@tailwindcss/postcss": {}
+    }
+};
+const __TURBOPACK__default__export__ = config;
 }),
 "[turbopack-node]/transforms/postcss.ts?config=[project]/postcss.config.mjs { CONFIG => \"[project]/postcss.config.mjs [postcss] (ecmascript)\" } [postcss] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
