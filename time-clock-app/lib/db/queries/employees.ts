@@ -10,6 +10,7 @@ export type EmployeeRow = {
 	id: string;
 	name: string;
 	email: string;
+    location: string;
 	isActive: boolean;
 	createdAt: Date;
 	clockedInSince: Date | null;
@@ -31,6 +32,7 @@ export async function listEmployees(): Promise<EmployeeRow[]> {
 			id: true,
 			name: true,
 			email: true,
+			location: true,
 			isActive: true,
 			createdAt: true,
 			shifts: { where: { clockOut: null }, select: { clockIn: true }, take: 1 },
@@ -41,6 +43,7 @@ export async function listEmployees(): Promise<EmployeeRow[]> {
 		id: u.id,
 		name: u.name,
 		email: u.email,
+		location: u.location,
 		isActive: u.isActive,
 		createdAt: u.createdAt,
 		clockedInSince: u.shifts[0]?.clockIn ?? null,

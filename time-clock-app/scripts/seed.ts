@@ -9,13 +9,13 @@ import { hashPassword } from "../lib/auth/password";
 const ADMIN_PASSWORD = "Admin123!";
 const EMPLOYEE_PASSWORD = "Employee123!";
 
-const SEED_USERS: { name: string; email: string; role: "ADMIN" | "EMPLOYEE"; password: string }[] = [
-  { name: "Admin User", email: "admin@abc.test", role: "ADMIN", password: ADMIN_PASSWORD },
-  { name: "Alex Kim", email: "alex@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD },
-  { name: "Sam Lee", email: "sam@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD },
-  { name: "Jo Park", email: "jo@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD },
-  { name: "Mia Chen", email: "mia@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD },
-  { name: "Ken Sato", email: "ken@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD },
+const SEED_USERS: { name: string; email: string; role: "ADMIN" | "EMPLOYEE"; password: string; location: string }[] = [
+  { name: "Admin User", email: "admin@abc.test", role: "ADMIN", password: ADMIN_PASSWORD, location: "Toronto" },
+  { name: "Alex Kim", email: "alex@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD, location: "Toronto" },
+  { name: "Sam Lee", email: "sam@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD, location: "Vancouver" },
+  { name: "Jo Park", email: "jo@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD, location: "Vancouver" },
+  { name: "Mia Chen", email: "mia@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD, location: "Vancouver" },
+  { name: "Ken Sato", email: "ken@abc.test", role: "EMPLOYEE", password: EMPLOYEE_PASSWORD, location: "Vancouver" },
 ];
 
 const timeZone = process.env.COMPANY_TIMEZONE;
@@ -87,10 +87,11 @@ async function main() {
   for (const seedUser of SEED_USERS) {
     const user = await prisma.user.upsert({
       where: { email: seedUser.email },
-      update: {},
+      update: { location: seedUser.location },
       create: {
         name: seedUser.name,
         email: seedUser.email,
+        location: seedUser.location,
         role: seedUser.role,
         passwordHash: await hashPassword(seedUser.password),
       },

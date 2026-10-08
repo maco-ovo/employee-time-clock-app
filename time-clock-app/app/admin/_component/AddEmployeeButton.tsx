@@ -66,11 +66,13 @@ export default function AddEmployeeButton() {
               />
             </label>
               <label>
-                Role
-                <select name="jobTitle" defaultValue="" required>
+                Location
+                <select name="location" defaultValue="" required>
                   <option value="" disabled>
-                    Select role
+                    Select location
                   </option>
+                  <option value="Toronto">Toronto</option>
+                  <option value="Vancouver">Vancouver</option>
                 </select>
               </label>
            

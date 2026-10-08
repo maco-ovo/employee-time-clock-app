@@ -22,7 +22,7 @@ export async function getLiveShifts() {
     select: {
       id: true,
       clockIn: true,
-      user: { select: { id: true, name: true, email: true } },
+      user: { select: { id: true, name: true, email: true, location: true } },
     },
   });
 }
@@ -58,18 +58,19 @@ export async function getAdminStats() {
 export async function getHoursByEmployee(from: string, to: string) {
   const tz = companyTimeZone();
 
-  return prisma.$queryRaw<{ id: string; name: string; email: string; minutes: number }[]>`
+  return prisma.$queryRaw<{ id: string; name: string; email: string; location: string; minutes: number }[]>`
     SELECT
       u.id,
       u.name,
       u.email,
+      u.location,
       COALESCE(SUM(EXTRACT(EPOCH FROM (s.clock_out - s.clock_in)) / 60), 0)::int AS minutes
     FROM users u
     LEFT JOIN shifts s
       ON s.user_id = u.id
       AND (s.clock_in AT TIME ZONE ${tz})::date BETWEEN ${from}::date AND ${to}::date
     WHERE u.role = 'EMPLOYEE'
-    GROUP BY u.id, u.name, u.email
+    GROUP BY u.id, u.name, u.email, u.location
     ORDER BY minutes DESC
   `;
 }
