@@ -1,4 +1,4 @@
-export default function AddButton() {
+export default function AddEmployeeButton() {
     return (
         <button className="button button-secondary">
             Clock Out

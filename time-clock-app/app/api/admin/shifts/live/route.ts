@@ -1,7 +1,12 @@
 // Owner: C
-// TODO: Who is clocked in right now, and since when.
-// Every handler must verify the session and role on the server (requireUser / requireAdmin).
+// GET /api/admin/shifts/live -> who is clocked in right now, and since when.
+import { requireApiAdmin } from "@/lib/auth/guards";
+import { getLiveShifts } from "@/lib/db/queries/shifts";
 
 export async function GET() {
-  return Response.json({ error: "Not implemented" }, { status: 501 });
+  const auth = await requireApiAdmin();
+  if (auth instanceof Response) return auth;
+
+  const shifts = await getLiveShifts();
+  return Response.json({ shifts });
 }

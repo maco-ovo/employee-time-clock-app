@@ -1,15 +1,13 @@
 import type { AdminUser } from "../_lib/types";
 import Initials from "./Initials";
 
-
-
-export default function AdminUser({ id, name, title }: AdminUser) {
+export default function AdminUser({ id, name }: AdminUser) {
   return (
     <div className="admin-user">
       <Initials id={id} name={name} />
       <div className="admin-user-info">
         <span className="admin-user-name">{name}</span>
-        <span className="admin-user-title">{title}</span>
+        <span className="admin-user-title">Administrator</span>
       </div>
     </div>
   );

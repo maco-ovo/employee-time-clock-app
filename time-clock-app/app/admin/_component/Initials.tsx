@@ -1,5 +1,5 @@
 type InitialProps = {
-  id: number;
+  id: string;
   name: string;
 };
 
@@ -14,8 +14,11 @@ function getInitials(name: string) {
 
 const color = ["teal", "blue", "violet", "orange", "rose", "cyan"] as const;
 
-export function bgColor(id: number) {
-  return color[(id - 1) % color.length];
+// Ids from the database are text (uuid), so add up the character codes to pick a color.
+export function bgColor(id: string) {
+  let total = 0;
+  for (const char of id) total += char.charCodeAt(0);
+  return color[total % color.length];
 }
 
 export default function Initials({ id, name }: InitialProps) {

@@ -1,29 +1,36 @@
+// Types for the admin pages. They match what lib/db/queries/shifts.ts returns.
 
-
-// Admin User
+// The signed-in admin (from requireAdmin() in lib/auth/guards.ts)
 export type AdminUser = {
-  id: number;
+  id: string;
   name: string;
-  title: string;
+  email: string;
 };
 
-
-
-// Dashboard Stat
+// Numbers for the 4 cards (from getAdminStats())
 export type DashboardStats = {
   clockedInNow: number;
   activeEmployees: number;
-  periodMinutes: number;
-  shiftsInPeriod: number;
-  openShiftsPastCutoff: number;
+  weekShifts: number;
+  weekMinutes: number;
+};
+
+// One person who is clocked in right now (from getLiveShifts())
+export type LiveShift = {
+  id: string;
+  clockIn: Date;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
 };
 
 
-export type Employee = {
-  id: number;
+
+export type EmployeeDirectory = {
+  id: string;
   name: string;
   email: string;
-  jobTitle: string;
-  location: string;
-  isActive: boolean;
+  minutes: number;
 };
