@@ -1,7 +1,19 @@
 // Owner: B
-// TODO: Current status of the signed-in employee.
-// Every handler must verify the session and role on the server (requireUser / requireAdmin).
+// GET /api/clock/status -> the signed-in employee's clock state.
+// The clock-in instant is rendered in the company timezone.
+import { requireApiEmployee } from "@/lib/auth/guards"
+import { getClockStatus } from "@/lib/clock/service"
+import { companyTimeZone, formatInZone } from "@/lib/time"
 
 export async function GET() {
-  return Response.json({ error: "Not implemented" }, { status: 501 });
+	const auth = await requireApiEmployee()
+	if (auth instanceof Response) return auth
+
+	const status = await getClockStatus(auth.id)
+	return Response.json({
+		clockedIn: status.clockedIn,
+		clockIn: status.clockIn
+			? formatInZone(status.clockIn, companyTimeZone())
+			: null,
+	})
 }
