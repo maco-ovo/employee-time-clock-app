@@ -10,6 +10,8 @@ export type EmployeeRow = {
 	id: string;
 	name: string;
 	email: string;
+	jobTitle: string | null;
+	location: string | null;
 	isActive: boolean;
 	createdAt: Date;
 	clockedInSince: Date | null;
@@ -31,6 +33,8 @@ export async function listEmployees(): Promise<EmployeeRow[]> {
 			id: true,
 			name: true,
 			email: true,
+			jobTitle: true,
+			location: true,
 			isActive: true,
 			createdAt: true,
 			shifts: { where: { clockOut: null }, select: { clockIn: true }, take: 1 },
@@ -41,6 +45,8 @@ export async function listEmployees(): Promise<EmployeeRow[]> {
 		id: u.id,
 		name: u.name,
 		email: u.email,
+		jobTitle: u.jobTitle,
+		location: u.location,
 		isActive: u.isActive,
 		createdAt: u.createdAt,
 		clockedInSince: u.shifts[0]?.clockIn ?? null,
@@ -50,7 +56,14 @@ export async function listEmployees(): Promise<EmployeeRow[]> {
 export type CreateEmployeeResult =
 	| {
 			ok: true;
-			employee: { id: string; name: string; email: string; isActive: boolean };
+			employee: {
+				id: string;
+				name: string;
+				email: string;
+				jobTitle: string | null;
+				location: string | null;
+				isActive: boolean;
+			};
 			temporaryPassword: string;
 	  }
 	| { ok: false; reason: "email_taken" };
@@ -58,6 +71,8 @@ export type CreateEmployeeResult =
 export async function createEmployee(input: {
 	name: string;
 	email: string;
+	jobTitle: string;
+	location: string;
 }): Promise<CreateEmployeeResult> {
 	const existing = await prisma.user.findUnique({
 		where: { email: input.email },
@@ -71,10 +86,19 @@ export async function createEmployee(input: {
 			data: {
 				name: input.name,
 				email: input.email,
+				jobTitle: input.jobTitle,
+				location: input.location,
 				role: "EMPLOYEE",
 				passwordHash: await hashPassword(temporaryPassword),
 			},
-			select: { id: true, name: true, email: true, isActive: true },
+			select: {
+				id: true,
+				name: true,
+				email: true,
+				jobTitle: true,
+				location: true,
+				isActive: true,
+			},
 		});
 		return { ok: true, employee: user, temporaryPassword };
 	} catch (error) {
@@ -92,8 +116,6 @@ export type SetActiveResult =
 	  }
 	| { ok: false; reason: "not_found" };
 
-// History stays: shifts are never touched. A deactivated user cannot log in, and
-// guards.ts re-reads is_active on every request, so an existing session stops working at once.
 export async function setEmployeeActive(
 	id: string,
 	isActive: boolean,
