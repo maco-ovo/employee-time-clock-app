@@ -29,7 +29,6 @@ model User {
   shiftEdits   ShiftEdit[]
 
   jobTitle     String?     @map("job_title")
-location     String?
 
   @@map("users")
 }
