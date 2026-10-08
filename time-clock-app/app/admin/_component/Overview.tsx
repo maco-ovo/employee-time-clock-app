@@ -1,9 +1,15 @@
-import AddButton from "./AddButton";
+import AddEmployeeButton from "./AddEmployeeButton";
 import StatCard from "./StatCard";
 import { ClipboardCheck, Clock3, UserRoundCheck, Users } from "lucide-react";
+import { getAdminStats } from "@/lib/db/queries/shifts";
 
-function greeting (name: string) {
-  const currentHour = new Date().getHours();
+const timeZone = process.env.COMPANY_TIMEZONE;
+
+function greeting(name: string) {
+  // Hour in the company timezone (0-23), not the server's timezone
+  const currentHour = Number(
+    new Date().toLocaleString("en-US", { timeZone, hour: "numeric", hourCycle: "h23" }),
+  );
   let greeting = "";
 
   if (currentHour < 12) {
@@ -17,12 +23,11 @@ function greeting (name: string) {
   return `${greeting}, ${name}`;
 }
 
+export default async function Overview({ name }: { name: string }) {
+  const stats = await getAdminStats();
 
-
-
-
-export default function Overview() {
   const currentDate = new Date().toLocaleDateString("en-US", {
+    timeZone,
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -30,6 +35,7 @@ export default function Overview() {
   });
 
   const currentTime = new Date().toLocaleTimeString("en-US", {
+    timeZone,
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
@@ -46,45 +52,43 @@ export default function Overview() {
           </span>
 
           <h1 className="text-2xl font-bold mb-4">
-            {greeting("Mary Jane")}
+            {greeting(name)}
           </h1>
           <p>
             {currentDate} at {currentTime}
           </p>
         </div>
         <div>
-          <AddButton />
+          <AddEmployeeButton />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           icon={<UserRoundCheck />}
           label="CLOCKED IN NOW"
-          value={'0'}
-          note={
-            '0 of 0 active employees'
-          }
+          value={String(stats.clockedInNow)}
+          note={`of ${stats.activeEmployees} active employees`}
           tone="green"
         />
         <StatCard
           icon={<Clock3 />}
           label="WEEKLY HOURS"
-          value={'0.0'}
-          note={`Week of 0`}
+          value={(stats.weekMinutes / 60).toFixed(1)}
+          note="This week (Mon-Sun)"
           tone="blue"
         />
         <StatCard
           icon={<Users />}
           label="ACTIVE EMPLOYEES"
-          value={'0'}
-          note="Across 2 locations"
+          value={String(stats.activeEmployees)}
+          note="Can log in and clock in"
           tone="orange"
         />
         <StatCard
           icon={<ClipboardCheck />}
           label="SHIFTS THIS WEEK"
-          value={'0'}
-          note={`0 still open`}
+          value={String(stats.weekShifts)}
+          note={`${stats.clockedInNow} still open`}
           tone="violet"
         />{" "}
       </div>

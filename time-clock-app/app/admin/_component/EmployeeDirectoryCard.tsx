@@ -2,13 +2,13 @@ import Initials from "./Initials";
 import ClockoutButton from "./ClockoutButton";
 import type { LiveShift } from "../_lib/types";
 
-export default function LiveBoardCard({ shift }: { shift: LiveShift }) {
-  // Show the start time in the company timezone, e.g. "9:02 AM"
+export default function EmployeeDirectoryCard({ shift }: { shift: LiveShift }) {
   const startTime = shift.clockIn.toLocaleTimeString("en-US", {
     timeZone: process.env.COMPANY_TIMEZONE,
     hour: "numeric",
     minute: "2-digit",
   });
+
 
   return (
     <div className="flex items-center gap-4 p-4 bg-white border border-gray-200">
