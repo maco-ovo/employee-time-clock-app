@@ -52,9 +52,9 @@ export default function HourReportCard({ row }: { row: HourReportRow }) {
         </div>
       </div>
 
-      {/* <Link className="button button-secondary" href={`/admin/employees/${row.id}`}>
+      <Link className="button button-secondary" href={`/admin/employees/${row.id}`}>
         View Details
-      </Link> */}
+      </Link>
     </div>
   );
 }

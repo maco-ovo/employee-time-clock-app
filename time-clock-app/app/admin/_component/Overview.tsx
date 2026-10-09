@@ -1,4 +1,4 @@
-import AddEmployeeButton from "./AddEmployeeButton";
+// import AddEmployeeButton from "./AddEmployeeButton";
 import StatCard from "./StatCard";
 import { ClipboardCheck, Clock3, UserRoundCheck, Users } from "lucide-react";
 import { getAdminStats } from "@/lib/db/queries/shifts";
@@ -58,9 +58,9 @@ export default async function Overview({ name }: { name: string }) {
             {currentDate} at {currentTime}
           </p>
         </div>
-        <div>
+        {/* <div>
           <AddEmployeeButton />
-        </div>
+        </div> */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard

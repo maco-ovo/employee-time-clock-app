@@ -210,9 +210,39 @@
   height: 32px;
   border-radius: 50%;
   background: var(--line);
-  color: var(--text);
+  color: var(--ink);
   font-size: 12px;
   font-weight: 700;
+}
+
+.admin-user-initials.teal {
+  background: #d8eee5;
+  color: #0c5953;
+}
+
+.admin-user-initials.blue {
+  background: #e4eff7;
+  color: #3f7396;
+}
+
+.admin-user-initials.violet {
+  background: #eee9f6;
+  color: #715d97;
+}
+
+.admin-user-initials.orange {
+  background: #f9ebe0;
+  color: #b66a3d;
+}
+
+.admin-user-initials.rose {
+  background: #f8e2e5;
+  color: #a34f5a;
+}
+
+.admin-user-initials.cyan {
+  background: #dff3f5;
+  color: #287d86;
 }
 
 .admin-user-info {
@@ -229,6 +259,23 @@
   font-size: 11px;
   color: #72827f;
 }
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+}
+
+.inner {
+      background: var(--mint-light);
+  color: var(--forest-2);
+     border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
 
 /* Modals */
 .modal-backdrop {

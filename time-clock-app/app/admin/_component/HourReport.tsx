@@ -1,6 +1,6 @@
 import HourReportCard from "./HourReportCard";
 import PeriodFilter from "./PeriodFilter";
-import { TruckElectric } from "lucide-react";
+import { FileClock } from "lucide-react";
 import { getHoursByEmployee } from "@/lib/db/queries/shifts";
 
 type Props = {
@@ -17,9 +17,13 @@ export default async function HourReport({ period, from, to }: Props) {
     <section className="board">
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-row items-center gap-2 mb-2">
-          <TruckElectric />
+          <FileClock />
           <h2>Hours report</h2>
-          <span className="count-badge">{from} to {to}</span>
+          <span className="count-badge">
+            <span className="inner">{from} </span>
+             to 
+             <span className="inner">{to}</span>
+          </span>
         </div>
         <PeriodFilter period={period} />
       </div>
