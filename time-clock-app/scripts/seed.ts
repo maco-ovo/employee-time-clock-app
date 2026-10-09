@@ -154,22 +154,17 @@ function buildShifts(userId: string, employeeIndex: number, tz: string) {
 async function main() {
 	let employeeIndex = 0;
 
-	for (const seedUser of SEED_USERS) {
-		const user = await prisma.user.upsert({
-			where: { email: seedUser.email },
-			update: {
-				jobTitle: seedUser.jobTitle ?? null,
-				location: seedUser.location ?? null,
-			},
-			create: {
-				name: seedUser.name,
-				email: seedUser.email,
-				role: seedUser.role,
-				jobTitle: seedUser.jobTitle ?? null,
-				location: seedUser.location ?? null,
-				passwordHash: await hashPassword(seedUser.password),
-			},
-		});
+  for (const seedUser of SEED_USERS) {
+    const user = await prisma.user.upsert({
+      where: { email: seedUser.email },
+      update: {},
+      create: {
+        name: seedUser.name,
+        email: seedUser.email,
+        role: seedUser.role,
+        passwordHash: await hashPassword(seedUser.password),
+      },
+    });
 
 		if (seedUser.role === "EMPLOYEE") {
 			employeeIndex++;

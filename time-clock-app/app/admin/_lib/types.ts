@@ -5,14 +5,7 @@ export type AdminUser = {
   id: string;
   name: string;
   email: string;
-};
-
-// Numbers for the 4 cards (from getAdminStats())
-export type DashboardStats = {
-  clockedInNow: number;
-  activeEmployees: number;
-  weekShifts: number;
-  weekMinutes: number;
+  location?: string;
 };
 
 // One person who is clocked in right now (from getLiveShifts())
@@ -23,14 +16,25 @@ export type LiveShift = {
     id: string;
     name: string;
     email: string;
+    location: string;
   };
 };
 
-
-
-export type EmployeeDirectory = {
+export type EmployeeDirectoryItem = {
   id: string;
   name: string;
   email: string;
+  location: string;
+  clockedIn: boolean;
+  clockInTime?: Date;
+};
+
+
+// One row of the hours report (from getHoursByEmployee())
+export type HourReportRow = {
+  id: string;
+  name: string;
+  email: string;
+  location: string;
   minutes: number;
 };
