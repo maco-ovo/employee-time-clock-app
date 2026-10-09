@@ -1,4 +1,4 @@
-// Owner: A (PATCH). If C already has handlers in this file (e.g. GET detail), merge PATCH into it.
+// Owner: A (PATCH)
 // PATCH /api/admin/employees/:id  { action: "deactivate" | "reactivate" | "reset_password" }
 import { requireApiAdmin } from "@/lib/auth/guards";
 import {
