@@ -29,7 +29,7 @@ const SEED_USERS: {
 		role: "EMPLOYEE",
 		password: EMPLOYEE_PASSWORD,
 		jobTitle: "Warehouse Associate",
-		location: "East Hub",
+		location: "Bangkok",
 	},
 	{
 		name: "Sam Lee",
@@ -37,7 +37,7 @@ const SEED_USERS: {
 		role: "EMPLOYEE",
 		password: EMPLOYEE_PASSWORD,
 		jobTitle: "Forklift Operator",
-		location: "East Hub",
+		location: "Bangkok",
 	},
 	{
 		name: "Jo Park",
@@ -45,7 +45,7 @@ const SEED_USERS: {
 		role: "EMPLOYEE",
 		password: EMPLOYEE_PASSWORD,
 		jobTitle: "Inventory Coordinator",
-		location: "West Hub",
+		location: "Chiang Mai",
 	},
 	{
 		name: "Mia Chen",
@@ -53,7 +53,7 @@ const SEED_USERS: {
 		role: "EMPLOYEE",
 		password: EMPLOYEE_PASSWORD,
 		jobTitle: "Warehouse Associate",
-		location: "West Hub",
+		location: "Chiang Mai",
 	},
 	{
 		name: "Ken Sato",
@@ -61,7 +61,7 @@ const SEED_USERS: {
 		role: "EMPLOYEE",
 		password: EMPLOYEE_PASSWORD,
 		jobTitle: "Forklift Operator",
-		location: "West Hub",
+		location: "Chiang Mai",
 	},
 ];
 
