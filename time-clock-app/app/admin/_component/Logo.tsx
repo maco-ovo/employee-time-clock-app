@@ -9,7 +9,7 @@ export default function Logo() {
       </span>
       <span>
         <strong>Northstar</strong>
-        <small>LOGISTICS</small>
+        <small>LOGISTICS THAILAND</small>
       </span>
     </Link>
   );
