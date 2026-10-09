@@ -37,8 +37,9 @@ export function LoginForm() {
 				setLoading(false);
 				return;
 			}
-			router.replace(data.redirectTo);
-			router.refresh();
+			if (data.role == "EMPLOYEE")
+				router.replace(data.redirectTo + "/" + data.id);
+			else router.refresh();
 		} catch {
 			setError("Could not reach the server. Please try again.");
 			setLoading(false);

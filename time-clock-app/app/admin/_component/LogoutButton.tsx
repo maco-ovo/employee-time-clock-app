@@ -1,23 +1,40 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 
-export default function LogoutButton() {
-  const router = useRouter();
+export default function LogoutButton({
+	className = "",
+}: {
+	className?: string;
+}) {
+	const router = useRouter();
+	const [loading, setLoading] = useState(false);
 
-  async function logout() {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
-  }
+	async function handleLogout() {
+		setLoading(true);
+		try {
+			const res = await fetch("/api/auth/logout", { method: "POST" });
+			if (!res.ok) throw new Error("Logout failed");
+			router.replace("/login");
+			router.refresh();
+		} catch {
+			setLoading(false);
+			alert("Could not log out. Please try again.");
+		}
+	}
 
-  return (
-    <button
-      onClick={logout}
-      aria-label="Log out"
-      className=" text-red-500 font-bold py-2 px-4 rounded"
-    >
-      <LogOut className="w-5 h-5" />
-    </button>
-  );
+	return (
+		<button
+			type="button"
+			onClick={handleLogout}
+			disabled={loading}
+			aria-label="Log out"
+			title="Log out"
+			className={`rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700 disabled:opacity-60 ${className}`}
+		>
+			<LogOut className="h-5 w-5" />
+		</button>
+	);
 }
