@@ -11,6 +11,79 @@ function companyTimeZone(): string {
 }
 
 // ---------------------------------------------------------------------------
+// Owner B: employee timesheet
+// ---------------------------------------------------------------------------
+
+// The signed-in employee's shifts with weekly totals. Everything is
+// formatted and summed by the database in the company timezone; no
+// totals are computed in JavaScript. Shifts are limited to the last
+// 52 weeks, newest first.
+export async function getEmployeeTimesheet(
+	userId: string,
+): Promise<{
+	shifts: {
+		id: string
+		clockIn: string
+		clockOut: string | null
+		startDay: string
+		durationMinutes: number | null
+	}[]
+	weeks: { weekStart: string; minutes: number; shifts: number }[]
+}> {
+	const tz = companyTimeZone()
+
+	type ShiftRow = {
+		id: string
+		clock_in: string
+		clock_out: string | null
+		start_day: string
+		duration_minutes: number | null
+	}
+	type WeekRow = { week_start: string; minutes: number; shifts: number }
+
+	const [shifts, weeks] = await Promise.all([
+		prisma.$queryRaw<ShiftRow[]>`
+			SELECT
+				s.id,
+				to_char(s.clock_in AT TIME ZONE ${tz}, 'YYYY-MM-DD HH24:MI') AS clock_in,
+				to_char(s.clock_out AT TIME ZONE ${tz}, 'YYYY-MM-DD HH24:MI') AS clock_out,
+				to_char(s.clock_in AT TIME ZONE ${tz}, 'YYYY-MM-DD') AS start_day,
+				(EXTRACT(EPOCH FROM (s.clock_out - s.clock_in)) / 60)::int AS duration_minutes
+			FROM shifts s
+			WHERE s.user_id = ${userId}
+				AND s.clock_in >= now() - interval '52 weeks'
+			ORDER BY s.clock_in DESC
+		`,
+		prisma.$queryRaw<WeekRow[]>`
+			SELECT
+				to_char(date_trunc('week', s.clock_in AT TIME ZONE ${tz}), 'YYYY-MM-DD') AS week_start,
+				COALESCE(SUM(EXTRACT(EPOCH FROM (s.clock_out - s.clock_in)) / 60), 0)::int AS minutes,
+				COUNT(*)::int AS shifts
+			FROM shifts s
+			WHERE s.user_id = ${userId}
+				AND s.clock_in >= now() - interval '52 weeks'
+			GROUP BY 1
+			ORDER BY 1 DESC
+		`,
+	])
+
+	return {
+		shifts: shifts.map((s) => ({
+			id: s.id,
+			clockIn: s.clock_in,
+			clockOut: s.clock_out,
+			startDay: s.start_day,
+			durationMinutes: s.duration_minutes,
+		})),
+		weeks: weeks.map((w) => ({
+			weekStart: w.week_start,
+			minutes: w.minutes,
+			shifts: w.shifts,
+		})),
+	}
+}
+
+// ---------------------------------------------------------------------------
 // Owner C: admin queries
 // ---------------------------------------------------------------------------
 

@@ -1,7 +1,14 @@
 // Owner: B
-// TODO: Own shifts grouped by week, weekly totals computed in SQL.
-// Every handler must verify the session and role on the server (requireUser / requireAdmin).
+// GET /api/timesheet -> the signed-in employee's shifts grouped
+// by day plus weekly totals. Dates and totals are computed by
+// the database in the company timezone.
+import { requireApiEmployee } from "@/lib/auth/guards"
+import { getEmployeeTimesheet } from "@/lib/db/queries/shifts"
 
 export async function GET() {
-  return Response.json({ error: "Not implemented" }, { status: 501 });
+	const auth = await requireApiEmployee()
+	if (auth instanceof Response) return auth
+
+	const timesheet = await getEmployeeTimesheet(auth.id)
+	return Response.json(timesheet)
 }
