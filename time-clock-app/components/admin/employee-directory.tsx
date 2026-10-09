@@ -3,6 +3,7 @@
 // Team page body: employee directory with search, add, and manage. Data comes from the server page;
 // after every change we call router.refresh() so the list is re-read from the database.
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MapPin, Pencil, Search, UserPlus } from "lucide-react";
 import {
@@ -129,7 +130,7 @@ export function EmployeeDirectory({
 						return (
 							<article
 								key={employee.id}
-								className={`flex items-center gap-3 rounded-xl border border-(--line) p-3.5 ${employee.isActive ? "" : "opacity-70"}`}
+								className={`relative flex items-center gap-3 rounded-xl border border-(--line) p-3.5 transition-colors hover:border-[#b9ddd0] hover:bg-[#fbfdfc] ${employee.isActive ? "" : "opacity-70"}`}
 							>
 								<span
 									className={`grid size-9 flex-none place-items-center rounded-[10px] text-[11px] font-extrabold ${avatarColor(employee.id)}`}
@@ -137,8 +138,14 @@ export function EmployeeDirectory({
 									{initials(employee.name)}
 								</span>
 								<div className="flex min-w-0 flex-1 flex-col">
-									<strong className="truncate text-[13px]">
-										{employee.name}
+									<strong className="text-[13px]">
+										{/* Stretched link: the whole card opens the detail page. */}
+										<Link
+											href={`/admin/employees/${employee.id}`}
+											className="block truncate after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-[#43877d]"
+										>
+											{employee.name}
+										</Link>
 									</strong>
 									<small className="truncate text-[11px] text-[#798885]">
 										{employee.jobTitle ?? employee.email}
@@ -158,7 +165,7 @@ export function EmployeeDirectory({
 									type="button"
 									aria-label={`Manage ${employee.name}`}
 									onClick={() => setModal({ type: "manage", id: employee.id })}
-									className="text-[#83918f] hover:text-(--ink)"
+									className="relative z-10 text-[#83918f] hover:text-(--ink)"
 								>
 									<Pencil size={15} />
 								</button>
