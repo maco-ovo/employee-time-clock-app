@@ -131,19 +131,27 @@ export async function getAdminStats() {
 export async function getHoursByEmployee(from: string, to: string) {
   const tz = companyTimeZone();
 
-  return prisma.$queryRaw<{ id: string; name: string; email: string; location: string; minutes: number }[]>`
+	return prisma.$queryRaw<{
+		id: string;
+		name: string;
+		email: string;
+		location: string;
+		jobTitle: string | null;
+		minutes: number;
+	}[]>`
     SELECT
       u.id,
       u.name,
       u.email,
       u.location,
+			u.job_title AS "jobTitle",
       COALESCE(SUM(EXTRACT(EPOCH FROM (s.clock_out - s.clock_in)) / 60), 0)::int AS minutes
     FROM users u
     LEFT JOIN shifts s
       ON s.user_id = u.id
       AND (s.clock_in AT TIME ZONE ${tz})::date BETWEEN ${from}::date AND ${to}::date
     WHERE u.role = 'EMPLOYEE'
-    GROUP BY u.id, u.name, u.email, u.location
+	GROUP BY u.id, u.name, u.email, u.location, u.job_title
     ORDER BY minutes DESC
   `;
 }

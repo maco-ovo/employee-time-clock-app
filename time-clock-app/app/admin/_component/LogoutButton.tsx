@@ -32,7 +32,7 @@ export default function LogoutButton({
 			disabled={loading}
 			aria-label="Log out"
 			title="Log out"
-			className={`color-red-500 ${className}`}
+			className={`rounded-lg border-2 border-[#103f3d] bg-[#103f3d] px-4 py-2 font-bold text-white hover:bg-[#0c5953] disabled:opacity-60 ${className}`}
 		>
 			<LogOut className="h-5 w-5" />
 		</button>
