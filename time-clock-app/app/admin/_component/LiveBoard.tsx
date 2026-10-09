@@ -7,11 +7,13 @@ export default async function LiveBoard() {
 
   return (
     <section className="board">
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-row items-center gap-2 mb-2">
+      <div className="board-header">
+        <div className="flex flex-row items-center gap-2">
           <TruckElectric />
           <h2>Working right now</h2>
-          <span className="count-badge">{shifts.length}</span>
+          <span className="count-badge">
+            <span className="inner">{shifts.length}</span>
+          </span>
         </div>
         <small className="flex flex-row items-center gap-1 text-xs text-gray-500">
           <Activity size={14} /> Live · Updated when the page loads
@@ -19,9 +21,9 @@ export default async function LiveBoard() {
       </div>
 
       {shifts.length === 0 ? (
-        <p className="p-4 text-sm text-gray-500">Nobody is clocked in right now.</p>
+        <p className="py-6 text-center text-sm text-gray-500">Nobody is clocked in right now.</p>
       ) : (
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {shifts.map((shift) => (
             <LiveBoardCard key={shift.id} shift={shift} />
           ))}

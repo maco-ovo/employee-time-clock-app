@@ -2,16 +2,27 @@ import Initials from "./Initials";
 import ClockoutButton from "./ClockoutButton";
 import type { LiveShift } from "../_lib/types";
 
+const timeZone = process.env.COMPANY_TIMEZONE;
+
 export default function LiveBoardCard({ shift }: { shift: LiveShift }) {
   // Show the start time in the company timezone, e.g. "9:02 AM"
   const startTime = shift.clockIn.toLocaleTimeString("en-US", {
-    timeZone: process.env.COMPANY_TIMEZONE,
+    timeZone,
     hour: "numeric",
     minute: "2-digit",
   });
 
+  // The same time for the modal's date input, e.g. "2026-10-08T09:02"
+  const day = shift.clockIn.toLocaleDateString("en-CA", { timeZone }); // "2026-10-08"
+  const time = shift.clockIn.toLocaleTimeString("en-GB", {
+    timeZone,
+    hour: "2-digit",
+    minute: "2-digit",
+  }); // "09:02"
+  const clockInLocal = `${day}T${time}`;
+
   return (
-    <div className="flex items-center gap-4 p-4 bg-white border border-gray-200">
+    <div className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4">
       {/* Avatar */}
       <Initials id={shift.user.id} name={shift.user.name} />
 
@@ -28,9 +39,7 @@ export default function LiveBoardCard({ shift }: { shift: LiveShift }) {
 
       {/* Start Time */}
       <div className="hidden text-right sm:block">
-        <div className="text-xs font-medium uppercase tracking-wide text-gray-400">
-          Start Time
-        </div>
+        <div className="small-label">Start time</div>
 
         <div className="text-sm font-medium text-gray-700">
           {startTime}
@@ -38,7 +47,12 @@ export default function LiveBoardCard({ shift }: { shift: LiveShift }) {
       </div>
 
       {/* Clock Out Button */}
-      <ClockoutButton />
+      <ClockoutButton
+        shiftId={shift.id}
+        employeeName={shift.user.name}
+        clockInLocal={clockInLocal}
+        clockInLabel={startTime}
+      />
     </div>
   );
 }

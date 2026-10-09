@@ -27,6 +27,7 @@ export type EmployeeDirectoryItem = {
   location: string;
   clockedIn: boolean;
   clockInTime?: Date;
+  jobTitle: string;
 };
 
 
@@ -37,4 +38,5 @@ export type HourReportRow = {
   email: string;
   location: string;
   minutes: number;
+  jobTitle: string | null;
 };
