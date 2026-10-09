@@ -23,6 +23,24 @@ function greeting(name: string) {
   return `${greeting}, ${name}`;
 }
 
+function greetingImg() {
+  // Hour in the company timezone (0-23), not the server's timezone
+  const currentHour = Number(
+    new Date().toLocaleString("en-US", { timeZone, hour: "numeric", hourCycle: "h23" }),
+  );
+  let imageUrl = "";
+
+  if (currentHour < 12) {
+    imageUrl = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWhzZG9zaDV5YnFrcXM1a3RrODBjdTdwem5wNHFndDZsazN2dnhlMCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/UQBgIFwLYp2ifzXrbT/giphy.gif";
+  } else if (currentHour < 18) {
+    imageUrl = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExem84ZGxndTI3NDI4bThuNzhlZzk3Njh2c3BscG53d3RuZWFnZ3RxdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/AnVYsk7T0pkf7rdMWn/giphy.gif";
+  } else {
+    imageUrl = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDZwYTllNWd2cWo0amk2MTNtamhuenBqczV3NWE5cDBrYnpmdmVrayZlcD12MV9naWZzX3NlYXJjaCZjdD1n/eCOZ9tuKeLS2BPIvv4/giphy.gif";
+  }
+
+  return imageUrl;
+}
+
 export default async function Overview({ name }: { name: string }) {
   const stats = await getAdminStats();
 
@@ -58,9 +76,13 @@ export default async function Overview({ name }: { name: string }) {
             {currentDate} at {currentTime}
           </p>
         </div>
-        {/* <div>
-          <AddEmployeeButton />
-        </div> */}
+        <div className="flex h-24 items-center justify-center overflow-hidden rounded-lg">
+          <img
+            src={greetingImg()}
+            alt="Greeting animation"
+            className="h-full w-full object-cover"
+          />
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
